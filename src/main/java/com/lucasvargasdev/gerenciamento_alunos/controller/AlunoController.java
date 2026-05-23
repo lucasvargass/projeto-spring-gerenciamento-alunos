@@ -26,4 +26,10 @@ public class AlunoController {
         alunoService.criarAluno(aluno);
         return "Criado com sucesso!";
     }
+
+    @PutMapping("/{id}")
+    public String editarAluno(@PathVariable("id") Long id, @RequestBody Aluno aluno){
+        alunoService.atualizarAluno(id, aluno);
+        return "Aluno editado com sucesso";
+    }
 }
