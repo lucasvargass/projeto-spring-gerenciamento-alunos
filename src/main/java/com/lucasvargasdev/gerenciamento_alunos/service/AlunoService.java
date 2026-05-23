@@ -16,4 +16,8 @@ public class AlunoService {
     public List<Aluno> getAllAlunos() {
         return alunoRepository.findAll();
     }
+
+    public void criarAluno(Aluno aluno){
+        alunoRepository.save(aluno);
+    }
 }
