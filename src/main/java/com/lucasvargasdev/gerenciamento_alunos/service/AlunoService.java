@@ -38,4 +38,13 @@ public class AlunoService {
             alunoRepository.deleteById(id);
         }
     }
+
+    public Aluno getAlunoById(Long id) {
+        Optional<Aluno> aluno = alunoRepository.findById(id);
+        if (aluno.isEmpty()){
+            System.out.println("Aluno não encontrado!");
+            return null;
+        }
+        return aluno.get();
+    }
 }

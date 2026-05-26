@@ -21,6 +21,12 @@ public class AlunoController {
         return alunos;
     }
 
+    @GetMapping("/{id}")
+    public Aluno buscarAlunoPorId(@PathVariable Long id){
+        Aluno aluno = alunoService.getAlunoById(id);
+        return aluno;
+    }
+
     @PostMapping
     public String inserirAluno(@RequestBody Aluno aluno){
         alunoService.criarAluno(aluno);
