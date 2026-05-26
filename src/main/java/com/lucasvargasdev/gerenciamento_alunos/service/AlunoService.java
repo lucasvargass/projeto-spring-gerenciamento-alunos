@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AlunoService {
@@ -27,5 +28,14 @@ public class AlunoService {
         alunoBanco.setDataNascimento(aluno.getDataNascimento());
         alunoBanco.setMatricula(aluno.getMatricula());
         alunoRepository.save(alunoBanco);
+    }
+
+    public void deletarAluno(Long id) {
+        Optional<Aluno> aluno = alunoRepository.findById(id);
+        if (aluno.isEmpty()){
+            System.out.println("Aluno não encontrado!");
+        }else {
+            alunoRepository.deleteById(id);
+        }
     }
 }

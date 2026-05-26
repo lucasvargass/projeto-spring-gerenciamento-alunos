@@ -32,4 +32,9 @@ public class AlunoController {
         alunoService.atualizarAluno(id, aluno);
         return "Aluno editado com sucesso";
     }
+
+    @DeleteMapping("/{id}")
+    public void excluirAluno(@PathVariable("id") Long id){
+        alunoService.deletarAluno(id);
+    }
 }
