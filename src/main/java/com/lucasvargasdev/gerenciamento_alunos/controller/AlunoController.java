@@ -3,9 +3,12 @@ package com.lucasvargasdev.gerenciamento_alunos.controller;
 import com.lucasvargasdev.gerenciamento_alunos.model.Aluno;
 import com.lucasvargasdev.gerenciamento_alunos.service.AlunoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
@@ -16,31 +19,37 @@ public class AlunoController {
     private AlunoService alunoService;
 
     @GetMapping
-    public List<Aluno> buscarAlunos(){
+    public ResponseEntity<List<Aluno>> buscarAlunos(){
         List<Aluno> alunos = alunoService.getAllAlunos();
-        return alunos;
+        return ResponseEntity.ok(alunos);
     }
 
     @GetMapping("/{id}")
-    public Aluno buscarAlunoPorId(@PathVariable Long id){
+    public ResponseEntity<Aluno> buscarAlunoPorId(@PathVariable Long id){
         Aluno aluno = alunoService.getAlunoById(id);
-        return aluno;
+        return ResponseEntity.ok(aluno);
     }
 
     @PostMapping
-    public String inserirAluno(@RequestBody Aluno aluno){
-        alunoService.criarAluno(aluno);
-        return "Criado com sucesso!";
+    public ResponseEntity<String> inserirAluno(@RequestBody Aluno aluno){
+        Long id = alunoService.criarAluno(aluno);
+        try {
+            URI location = new URI("https://localhost:8080/aluno/" + id);
+            return ResponseEntity.created(location).build();
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @PutMapping("/{id}")
-    public String editarAluno(@PathVariable("id") Long id, @RequestBody Aluno aluno){
+    public ResponseEntity<String> editarAluno(@PathVariable("id") Long id, @RequestBody Aluno aluno){
         alunoService.atualizarAluno(id, aluno);
-        return "Aluno editado com sucesso";
+        return ResponseEntity.ok("Aluno editado com sucesso");
     }
 
     @DeleteMapping("/{id}")
-    public void excluirAluno(@PathVariable("id") Long id){
+    public ResponseEntity<?> excluirAluno(@PathVariable("id") Long id){
         alunoService.deletarAluno(id);
+        return ResponseEntity.ok("Aluno deletado com sucesso!");
     }
 }

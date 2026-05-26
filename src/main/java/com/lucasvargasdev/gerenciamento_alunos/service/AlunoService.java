@@ -3,6 +3,7 @@ package com.lucasvargasdev.gerenciamento_alunos.service;
 import com.lucasvargasdev.gerenciamento_alunos.model.Aluno;
 import com.lucasvargasdev.gerenciamento_alunos.repository.AlunoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,8 +19,9 @@ public class AlunoService {
         return alunoRepository.findAll();
     }
 
-    public void criarAluno(Aluno aluno){
-        alunoRepository.save(aluno);
+    public Long criarAluno(Aluno aluno){
+        aluno = alunoRepository.save(aluno);
+        return aluno.getId();
     }
 
     public void atualizarAluno(Long id, Aluno aluno){
